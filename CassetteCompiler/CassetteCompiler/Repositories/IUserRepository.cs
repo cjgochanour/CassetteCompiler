@@ -7,5 +7,7 @@ namespace CassetteCompiler.Repositories
     {
         public List<User> GetAllUsers();
         public User GetById(int id);
+        public User GetByEmail(string email);
+        public void AddUser(User user);
     }
 }
