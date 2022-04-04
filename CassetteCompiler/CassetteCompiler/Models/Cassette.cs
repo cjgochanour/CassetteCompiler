@@ -10,6 +10,6 @@ namespace CassetteCompiler.Models
         public string Album { get; set; }
         public int Year { get; set; }
         public string Notes { get; set; }
-        public List<string> Genres { get; set; } 
+        public List<Genre> Genres { get; set; } 
     }
 }
