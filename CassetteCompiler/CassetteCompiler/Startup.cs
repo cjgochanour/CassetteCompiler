@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CassetteCompiler.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CassetteCompiler
 {
@@ -27,6 +28,8 @@ namespace CassetteCompiler
             services.AddControllersWithViews();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ICassetteRepository, CassetteRepository>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(options => options.LoginPath = "/Users/Login");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
