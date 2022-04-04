@@ -27,13 +27,10 @@ namespace CassetteCompiler.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT c.Id, c.UserId, c.Artist, c.Album, c.Year, c.Notes
-                                        FROM Cassette c
-                                        LEFT JOIN CassetteGenre cg ON cg.CasseetteId = c.Id
-                                        LEFT JOIN Genre g ON g.Id = cg.GenreId";
+                                        FROM Cassette c";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        //TODO: Add genres to new instance of cassette
                         List<Cassette> cassettes = new List<Cassette>();
                         while (reader.Read())
                         {
@@ -44,7 +41,8 @@ namespace CassetteCompiler.Repositories
                                 Artist = reader.GetString(reader.GetOrdinal("Artist")),
                                 Album = reader.GetString(reader.GetOrdinal("Album")),
                                 Year = !reader.IsDBNull(reader.GetOrdinal("Year")) ? reader.GetInt32(reader.GetOrdinal("Year")) : 0,
-                                Notes = !reader.IsDBNull(reader.GetOrdinal("Notes")) ? reader.GetString(reader.GetOrdinal("Notes")) : null
+                                Notes = !reader.IsDBNull(reader.GetOrdinal("Notes")) ? reader.GetString(reader.GetOrdinal("Notes")) : null,
+                                Genres = new List<Genre>()
                             });
                         }
                         return cassettes;
@@ -59,10 +57,9 @@ namespace CassetteCompiler.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
+
                     cmd.CommandText = @"SELECT c.Id, c.Artist, c.Album, c.Year, c.Notes
                                         FROM Cassette c
-                                        LEFT JOIN CassetteGenre cg ON cg.CassetteId = c.Id
-                                        LEFT JOIN Genre g ON g.Id = cg.GenreId
                                         WHERE u.Id = @id";
 
                     cmd.Parameters.AddWithValue("@id", id);
@@ -78,7 +75,8 @@ namespace CassetteCompiler.Repositories
                                 Artist = reader.GetString(reader.GetOrdinal("Artist")),
                                 Album = reader.GetString(reader.GetOrdinal("Album")),
                                 Year = !reader.IsDBNull(reader.GetOrdinal("Year")) ? reader.GetInt32(reader.GetOrdinal("Year")) : 0,
-                                Notes = !reader.IsDBNull(reader.GetOrdinal("Notes")) ? reader.GetString(reader.GetOrdinal("Notes")) : null
+                                Notes = !reader.IsDBNull(reader.GetOrdinal("Notes")) ? reader.GetString(reader.GetOrdinal("Notes")) : null,
+                                Genres = new List<Genre>()
                             });
                         }
                         return cassettes;
@@ -93,7 +91,8 @@ namespace CassetteCompiler.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT c.Id, c.UserId, c.Artist, c.Album, c.Year, c.Notes
+                    //TODO: Add genres to new instance of cassette
+                    cmd.CommandText = @"SELECT c.Id AS CassetteId, c.UserId, c.Artist, c.Album, c.Year, c.Notes, g.Id AS GenreId, g.Name AS GenreName
                                         FROM Cassette c
                                         LEFT JOIN CassetteGenre cg ON cg.CassetteId = c.Id
                                         LEFT JOIN Genre g ON g.Id = cg.GenreId
@@ -103,21 +102,31 @@ namespace CassetteCompiler.Repositories
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        if (reader.Read())
+                        Cassette cassette = null;
+                        while (reader.Read())
                         {
-                            return new Cassette()
+                            if (cassette == null)
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Artist = reader.GetString(reader.GetOrdinal("Artist")),
-                                Album = reader.GetString(reader.GetOrdinal("Album")),
-                                Year = !reader.IsDBNull(reader.GetOrdinal("Year")) ? reader.GetInt32(reader.GetOrdinal("Year")) : 0,
-                                Notes = !reader.IsDBNull(reader.GetOrdinal("Notes")) ? reader.GetString(reader.GetOrdinal("Notes")) : null
-                            };
+                                cassette = new Cassette()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("CassetteId")),
+                                    Artist = reader.GetString(reader.GetOrdinal("Artist")),
+                                    Album = reader.GetString(reader.GetOrdinal("Album")),
+                                    Year = !reader.IsDBNull(reader.GetOrdinal("Year")) ? reader.GetInt32(reader.GetOrdinal("Year")) : 0,
+                                    Notes = !reader.IsDBNull(reader.GetOrdinal("Notes")) ? reader.GetString(reader.GetOrdinal("Notes")) : null,
+                                    Genres = new List<Genre>()
+                                };
+                            }
+                            if (!reader.IsDBNull(reader.GetOrdinal("Genre")))
+                            {
+                                cassette.Genres.Add(new Genre()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("GenreId")),
+                                    Name = reader.GetString(reader.GetOrdinal("GenreName")),
+                                });
+                            }
                         }
-                        else
-                        {
-                            return null;
-                        }
+                        return cassette;
                     }
                 }
             }
