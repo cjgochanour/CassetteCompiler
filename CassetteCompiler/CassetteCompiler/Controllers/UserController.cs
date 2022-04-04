@@ -110,7 +110,7 @@ namespace CassetteCompiler.Controllers
     {
         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
         new Claim(ClaimTypes.Email, user.Email),
-        new Claim(ClaimTypes.Role, "DogOwner"),
+        new Claim(ClaimTypes.Role, "User"),
     };
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(

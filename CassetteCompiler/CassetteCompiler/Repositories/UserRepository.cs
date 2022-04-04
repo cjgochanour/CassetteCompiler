@@ -28,7 +28,7 @@ namespace CassetteCompiler.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT Id, Name, Email
-                                        FROM User";
+                                        FROM [User]";
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         List<User> users = new List<User>();
@@ -37,7 +37,8 @@ namespace CassetteCompiler.Repositories
                             users.Add(new User()
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Name = reader.GetString(reader.GetOrdinal("Name"))
+                                Name = reader.GetString(reader.GetOrdinal("Name")),
+                                Email = reader.GetString(reader.GetOrdinal("Email"))
                             });
                         }
                         return users;
@@ -53,7 +54,7 @@ namespace CassetteCompiler.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT Id, Name, Email
-                                        FROM User
+                                        FROM [User]
                                         WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -63,7 +64,8 @@ namespace CassetteCompiler.Repositories
                             return new User()
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Name = reader.GetString(reader.GetOrdinal("Name"))
+                                Name = reader.GetString(reader.GetOrdinal("Name")),
+                                Email = reader.GetString(reader.GetOrdinal("Email"))
                             };
                         }
                         else
@@ -82,7 +84,7 @@ namespace CassetteCompiler.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT Id, Name, Email
-                                        FROM User
+                                        FROM [User]
                                         WHERE Email = @email";
                     cmd.Parameters.AddWithValue("@email", email);
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -92,7 +94,8 @@ namespace CassetteCompiler.Repositories
                             return new User()
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Name = reader.GetString(reader.GetOrdinal("Name"))
+                                Name = reader.GetString(reader.GetOrdinal("Name")),
+                                Email = reader.GetString(reader.GetOrdinal("Email"))
                             };
                         }
                         else
