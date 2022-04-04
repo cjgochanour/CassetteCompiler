@@ -28,8 +28,8 @@ namespace CassetteCompiler.Repositories
                 {
                     cmd.CommandText = @"SELECT c.Id, c.UserId, c.Artist, c.Album, c.Year, c.Notes
                                         FROM Cassette c
-                                        LEFT JOIN Genre g ON g.CassetteId = c.Id
-                                        LEFT JOIN User u ON u.Id = c.UserId";
+                                        LEFT JOIN CassetteGenre cg ON cg.CasseetteId = c.Id
+                                        LEFT JOIN Genre g ON g.Id = cg.GenreId";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -43,8 +43,8 @@ namespace CassetteCompiler.Repositories
                                 UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
                                 Artist = reader.GetString(reader.GetOrdinal("Artist")),
                                 Album = reader.GetString(reader.GetOrdinal("Album")),
-                                Year = reader.GetInt32(reader.GetOrdinal("Year")),
-                                Notes = reader.GetString(reader.GetOrdinal("Notes"))
+                                Year = !reader.IsDBNull(reader.GetOrdinal("Year")) ? reader.GetInt32(reader.GetOrdinal("Year")) : 0,
+                                Notes = !reader.IsDBNull(reader.GetOrdinal("Notes")) ? reader.GetString(reader.GetOrdinal("Notes")) : null
                             });
                         }
                         return cassettes;
@@ -61,8 +61,8 @@ namespace CassetteCompiler.Repositories
                 {
                     cmd.CommandText = @"SELECT c.Id, c.Artist, c.Album, c.Year, c.Notes
                                         FROM Cassette c
-                                        LEFT JOIN Genre g ON g.CassetteId = c.Id
-                                        LEFT JOIN User u ON u.Id = c.UserId
+                                        LEFT JOIN CassetteGenre cg ON cg.CassetteId = c.Id
+                                        LEFT JOIN Genre g ON g.Id = cg.GenreId
                                         WHERE u.Id = @id";
 
                     cmd.Parameters.AddWithValue("@id", id);
@@ -77,8 +77,8 @@ namespace CassetteCompiler.Repositories
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Artist = reader.GetString(reader.GetOrdinal("Artist")),
                                 Album = reader.GetString(reader.GetOrdinal("Album")),
-                                Year = reader.GetInt32(reader.GetOrdinal("Year")),
-                                Notes = reader.GetString(reader.GetOrdinal("Notes"))
+                                Year = !reader.IsDBNull(reader.GetOrdinal("Year")) ? reader.GetInt32(reader.GetOrdinal("Year")) : 0,
+                                Notes = !reader.IsDBNull(reader.GetOrdinal("Notes")) ? reader.GetString(reader.GetOrdinal("Notes")) : null
                             });
                         }
                         return cassettes;
@@ -95,8 +95,8 @@ namespace CassetteCompiler.Repositories
                 {
                     cmd.CommandText = @"SELECT c.Id, c.UserId, c.Artist, c.Album, c.Year, c.Notes
                                         FROM Cassette c
-                                        LEFT JOIN Genre g ON g.CassetteId = c.Id
-                                        LEFT JOIN User u ON u.Id = c.UserId
+                                        LEFT JOIN CassetteGenre cg ON cg.CassetteId = c.Id
+                                        LEFT JOIN Genre g ON g.Id = cg.GenreId
                                         WHERE c.Id = @id";
 
                     cmd.Parameters.AddWithValue("@id", id);
@@ -110,8 +110,8 @@ namespace CassetteCompiler.Repositories
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Artist = reader.GetString(reader.GetOrdinal("Artist")),
                                 Album = reader.GetString(reader.GetOrdinal("Album")),
-                                Year = reader.GetInt32(reader.GetOrdinal("Year")),
-                                Notes = reader.GetString(reader.GetOrdinal("Notes"))
+                                Year = !reader.IsDBNull(reader.GetOrdinal("Year")) ? reader.GetInt32(reader.GetOrdinal("Year")) : 0,
+                                Notes = !reader.IsDBNull(reader.GetOrdinal("Notes")) ? reader.GetString(reader.GetOrdinal("Notes")) : null
                             };
                         }
                         else
