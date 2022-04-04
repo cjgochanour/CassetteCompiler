@@ -92,6 +92,15 @@ namespace CassetteCompiler.Controllers
                 return View();
             }
         }
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(User user)
+        {
+            return await Login(new LoginViewModel() { Email = user.Email });
+        }
         public ActionResult Login()
         {
             return View();
