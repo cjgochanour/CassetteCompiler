@@ -33,6 +33,7 @@ namespace CassetteCompiler.Repositories
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
+                        //TODO: Add genres to new instance of cassette
                         List<Cassette> cassettes = new List<Cassette>();
                         while (reader.Read())
                         {
