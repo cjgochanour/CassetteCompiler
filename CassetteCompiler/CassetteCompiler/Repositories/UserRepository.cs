@@ -106,5 +106,20 @@ namespace CassetteCompiler.Repositories
                 }
             }
         }
+        public void AddUser(User user)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO User ([Name], Email)
+                                            VALUES (@name, @email)";
+                    cmd.Parameters.AddWithValue("@name", user.Name);
+                    cmd.Parameters.AddWithValue("@email", user.Email);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
