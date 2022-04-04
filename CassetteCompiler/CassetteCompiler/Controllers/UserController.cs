@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using CassetteCompiler.Repositories;
 using CassetteCompiler.Models;
+using CassetteCompiler.Models.ViewModels;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
