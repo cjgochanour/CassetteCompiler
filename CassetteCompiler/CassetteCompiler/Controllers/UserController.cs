@@ -99,6 +99,7 @@ namespace CassetteCompiler.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
+            _userRepo.AddUser(user);
             return await Login(new LoginViewModel() { Email = user.Email });
         }
         public ActionResult Login()
