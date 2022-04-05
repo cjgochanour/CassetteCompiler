@@ -87,10 +87,10 @@ namespace CassetteCompiler.Controllers
         {
             try
             {
-
+                _cassetteRepo.UpdateCassette(cfvm.Cassette);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
                 return View(cfvm);
             }

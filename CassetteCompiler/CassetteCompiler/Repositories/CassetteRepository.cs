@@ -179,10 +179,10 @@ namespace CassetteCompiler.Repositories
                 {
                     cmd.CommandText = @"UPDATE Cassette
                                         SET
-                                            Arist = @artist
-                                            Album = @album
-                                            Year = @year
-                                            Notes = @year
+                                            Artist = @artist,
+                                            Album = @album,
+                                            Year = @year,
+                                            Notes = @notes
                                         WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@artist", cassette.Artist);
                     cmd.Parameters.AddWithValue("@album", cassette.Album);
