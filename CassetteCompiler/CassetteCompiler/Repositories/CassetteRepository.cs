@@ -170,5 +170,29 @@ namespace CassetteCompiler.Repositories
                 }
             }
         }
+        public void UpdateCassette(Cassette cassette)
+        {
+            using (SqlConnection con = Connection)
+            {
+                con.Open();
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Cassette
+                                        SET
+                                            Artist = @artist,
+                                            Album = @album,
+                                            Year = @year,
+                                            Notes = @notes
+                                        WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@artist", cassette.Artist);
+                    cmd.Parameters.AddWithValue("@album", cassette.Album);
+                    cmd.Parameters.AddWithValue("@year", cassette.Year);
+                    cmd.Parameters.AddWithValue("@notes", cassette.Notes);
+                    cmd.Parameters.AddWithValue("@id", cassette.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

@@ -67,21 +67,32 @@ namespace CassetteCompiler.Controllers
         // GET: CassetteController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            CassetteFormViewModel cfvm = new CassetteFormViewModel()
+            {
+                Cassette = _cassetteRepo.GetById(id),
+                Genres = _genreRepo.GetAll(),
+                GenreIds = new List<int>()
+            };
+            foreach(Genre g in cfvm.Cassette.Genres)
+            {
+                cfvm.GenreIds.Add(g.Id);
+            }
+            return View(cfvm);
         }
 
         // POST: CassetteController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(CassetteFormViewModel cfvm)
         {
             try
             {
+                _cassetteRepo.UpdateCassette(cfvm.Cassette);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View(cfvm);
             }
         }
 

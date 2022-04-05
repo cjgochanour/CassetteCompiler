@@ -10,5 +10,6 @@ namespace CassetteCompiler.Repositories
         Cassette GetById(int id);
         void AddCassette(Cassette cassette);
         void DeleteCassette(int id);
+        void UpdateCassette(Cassette cassette);
     }
 }
