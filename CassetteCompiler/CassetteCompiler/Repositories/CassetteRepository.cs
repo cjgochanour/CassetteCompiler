@@ -118,7 +118,7 @@ namespace CassetteCompiler.Repositories
                                     Genres = new List<Genre>()
                                 };
                             }
-                            if (!reader.IsDBNull(reader.GetOrdinal("Genre")))
+                            if (!reader.IsDBNull(reader.GetOrdinal("GenreId")))
                             {
                                 cassette.Genres.Add(new Genre()
                                 {
@@ -152,6 +152,21 @@ namespace CassetteCompiler.Repositories
                     int id = (int)cmd.ExecuteScalar();
 
                     cassette.Id = id;
+                }
+            }
+        }
+        public void DeleteCassette(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM Cassette
+                                        WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
