@@ -83,11 +83,12 @@ namespace CassetteCompiler.Controllers
         // POST: CassetteController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(Cassette cassette)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _cassetteRepo.DeleteCassette(cassette.Id);
+                return RedirectToAction("Index");
             }
             catch
             {
