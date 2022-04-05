@@ -5,5 +5,6 @@ namespace CassetteCompiler.Models.ViewModels
     {
         public Cassette Cassette { get; set; }
         public List<Genre> Genres { get; set; }
+        public List<int> GenreIds { get; set; }
     }
 }
