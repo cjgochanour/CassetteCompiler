@@ -46,5 +46,21 @@ namespace CassetteCompiler.Repositories
                 }
             }
         }
+        public void AddCassetteGenre(int cId, int gId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO CassetteGenre (CassetteId, GenreId)
+                                        VALUES @cId, @gId";
+                    cmd.Parameters.AddWithValue("@cId", cId);
+                    cmd.Parameters.AddWithValue("@gId", gId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

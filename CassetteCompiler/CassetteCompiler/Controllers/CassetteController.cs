@@ -37,6 +37,7 @@ namespace CassetteCompiler.Controllers
         {
             CassetteFormViewModel cfvm = new CassetteFormViewModel();
             cfvm.Genres = _genreRepo.GetAll();
+            cfvm.GenreIds = new List<int>();
             return View(cfvm);
         }
 
@@ -49,6 +50,10 @@ namespace CassetteCompiler.Controllers
             {
                 cfvm.Cassette.UserId = GetCurrentUserId();
                 _cassetteRepo.AddCassette(cfvm.Cassette);
+                foreach(int id in cfvm.GenreIds)
+                {
+                    _genreRepo.AddCassetteGenre(cfvm.Cassette.Id, id);
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch

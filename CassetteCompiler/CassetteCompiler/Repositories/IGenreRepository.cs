@@ -5,5 +5,6 @@ namespace CassetteCompiler.Repositories
     public interface IGenreRepository
     {
         List<Genre> GetAll();
+        void AddCassetteGenre(int cId, int gId);
     }
 }
