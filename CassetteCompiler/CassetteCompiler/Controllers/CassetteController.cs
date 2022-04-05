@@ -73,6 +73,10 @@ namespace CassetteCompiler.Controllers
                 Genres = _genreRepo.GetAll(),
                 GenreIds = new List<int>()
             };
+            foreach(Genre g in cfvm.Cassette.Genres)
+            {
+                cfvm.GenreIds.Add(g.Id);
+            }
             return View(cfvm);
         }
 
