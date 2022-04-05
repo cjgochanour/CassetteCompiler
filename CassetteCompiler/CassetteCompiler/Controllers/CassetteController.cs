@@ -5,6 +5,7 @@ using CassetteCompiler.Repositories;
 using CassetteCompiler.Models;
 using CassetteCompiler.Models.ViewModels;
 using System.Security.Claims;
+using System;
 
 namespace CassetteCompiler.Controllers
 {
@@ -56,9 +57,10 @@ namespace CassetteCompiler.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                cfvm.Genres = _genreRepo.GetAll();
+                return View(cfvm);
             }
         }
 
