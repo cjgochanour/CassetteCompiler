@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace CassetteCompiler.Repositories
 {
@@ -92,7 +93,6 @@ namespace CassetteCompiler.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    //TODO: Add genres to new instance of cassette
                     cmd.CommandText = @"SELECT c.Id AS CassetteId, c.UserId, c.Artist, c.Album, c.Year, c.Notes, g.Id AS GenreId, g.Name AS GenreName
                                         FROM Cassette c
                                         LEFT JOIN CassetteGenre cg ON cg.CassetteId = c.Id
@@ -129,6 +129,29 @@ namespace CassetteCompiler.Repositories
                         }
                         return cassette;
                     }
+                }
+            }
+        }
+        public void AddCassette(Cassette cassette)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Cassette (UserId, Artist, Album, Year, Notes)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@userId, @artist, @album, @year, @notes)";
+
+                    cmd.Parameters.AddWithValue("@userId", cassette.UserId);
+                    cmd.Parameters.AddWithValue("@artist", cassette.Artist);
+                    cmd.Parameters.AddWithValue("@album", cassette.Album);
+                    cmd.Parameters.AddWithValue("@year", cassette.Year == 0 ? DBNull.Value : cassette.Year);
+                    cmd.Parameters.AddWithValue("@notes", cassette.Notes == null ? DBNull.Value : cassette.Notes);
+
+                    int id = (int)cmd.ExecuteScalar();
+
+                    cassette.Id = id;
                 }
             }
         }

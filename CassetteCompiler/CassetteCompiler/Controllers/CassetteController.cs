@@ -38,10 +38,12 @@ namespace CassetteCompiler.Controllers
         // POST: CassetteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Cassette cassette)
         {
             try
             {
+                cassette.UserId = GetCurrentUserId();
+                _cassetteRepo.AddCassette(cassette);
                 return RedirectToAction(nameof(Index));
             }
             catch
