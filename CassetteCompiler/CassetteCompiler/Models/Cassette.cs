@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace CassetteCompiler.Models
 {
@@ -10,6 +11,7 @@ namespace CassetteCompiler.Models
         public string Album { get; set; }
         public int Year { get; set; }
         public string Notes { get; set; }
+        [DisplayName("Genres")]
         public List<Genre> Genres { get; set; } 
     }
 }

@@ -26,7 +26,8 @@ namespace CassetteCompiler.Controllers
         // GET: CassetteController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Cassette cassette = _cassetteRepo.GetById(id);
+            return View(cassette);
         }
 
         // GET: CassetteController/Create
