@@ -1,0 +1,67 @@
+﻿@model CassetteCompiler.Models.ViewModels.CassetteFormViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>@Model.Cassette.Artist - @Model.Cassette.Album</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input hidden asp-for="Cassette.Id" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input hidden asp-for="Cassette.UserId" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Cassette.Artist" class="control-label"></label>
+                <input asp-for="Cassette.Artist" class="form-control" />
+                <span asp-validation-for="Cassette.Artist" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cassette.Album" class="control-label"></label>
+                <input asp-for="Cassette.Album" class="form-control" />
+                <span asp-validation-for="Cassette.Album" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cassette.Year" class="control-label"></label>
+                <input asp-for="Cassette.Year" class="form-control" />
+                <span asp-validation-for="Cassette.Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cassette.Notes" class="control-label"></label>
+                <input asp-for="Cassette.Notes" class="form-control" />
+                <span asp-validation-for="Cassette.Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cassette.Genres" class="control-label"></label>
+                <select multiple asp-for="GenreIds" class="form-control">
+                    <option asp-for="@Model.GenreIds">Select Genre(s)</option>
+                    @{
+                        foreach(Genre g in Model.Genres)
+                        {
+                            <option asp-for="@Model.GenreIds" value="@g.Id">@g.Name</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Cassette.Genres" class="text-danger"></span>
+            <div class="form-group">
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

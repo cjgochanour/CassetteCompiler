@@ -67,7 +67,13 @@ namespace CassetteCompiler.Controllers
         // GET: CassetteController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            CassetteFormViewModel cfvm = new CassetteFormViewModel()
+            {
+                Cassette = _cassetteRepo.GetById(id),
+                Genres = _genreRepo.GetAll(),
+                GenreIds = new List<int>()
+            };
+            return View(cfvm);
         }
 
         // POST: CassetteController/Edit/5
