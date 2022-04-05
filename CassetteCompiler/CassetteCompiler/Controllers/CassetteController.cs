@@ -83,15 +83,16 @@ namespace CassetteCompiler.Controllers
         // POST: CassetteController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(CassetteFormViewModel cfvm)
         {
             try
             {
+
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(cfvm);
             }
         }
 
