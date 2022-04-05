@@ -28,6 +28,7 @@ namespace CassetteCompiler
             services.AddControllersWithViews();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ICassetteRepository, CassetteRepository>();
+            services.AddTransient<IGenreRepository, GenreRepository>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options => options.LoginPath = "/Users/Login");
         }

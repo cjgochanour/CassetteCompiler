@@ -5,15 +5,18 @@ using CassetteCompiler.Repositories;
 using CassetteCompiler.Models;
 using CassetteCompiler.Models.ViewModels;
 using System.Security.Claims;
+using System;
 
 namespace CassetteCompiler.Controllers
 {
     public class CassetteController : Controller
     {
         private readonly ICassetteRepository _cassetteRepo;
-        public CassetteController(ICassetteRepository cassetteRepository)
+        private readonly IGenreRepository _genreRepo;
+        public CassetteController(ICassetteRepository cassetteRepository, IGenreRepository genreRepository)
         {
             _cassetteRepo = cassetteRepository;
+            _genreRepo = genreRepository;
         }
         // GET: CassetteController
         public ActionResult Index()
@@ -33,23 +36,31 @@ namespace CassetteCompiler.Controllers
         // GET: CassetteController/Create
         public ActionResult Create()
         {
-            return View();
+            CassetteFormViewModel cfvm = new CassetteFormViewModel();
+            cfvm.Genres = _genreRepo.GetAll();
+            cfvm.GenreIds = new List<int>();
+            return View(cfvm);
         }
 
         // POST: CassetteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Cassette cassette)
+        public ActionResult Create(CassetteFormViewModel cfvm)
         {
             try
             {
-                cassette.UserId = GetCurrentUserId();
-                _cassetteRepo.AddCassette(cassette);
+                cfvm.Cassette.UserId = GetCurrentUserId();
+                _cassetteRepo.AddCassette(cfvm.Cassette);
+                foreach(int id in cfvm.GenreIds)
+                {
+                    _genreRepo.AddCassetteGenre(cfvm.Cassette.Id, id);
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                cfvm.Genres = _genreRepo.GetAll();
+                return View(cfvm);
             }
         }
 
