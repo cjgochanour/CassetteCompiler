@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace CassetteCompiler.Repositories
 {
@@ -145,8 +146,8 @@ namespace CassetteCompiler.Repositories
                     cmd.Parameters.AddWithValue("@userId", cassette.UserId);
                     cmd.Parameters.AddWithValue("@artist", cassette.Artist);
                     cmd.Parameters.AddWithValue("@album", cassette.Album);
-                    cmd.Parameters.AddWithValue("@year", cassette.Year);
-                    cmd.Parameters.AddWithValue("@notes", cassette.Notes);
+                    cmd.Parameters.AddWithValue("@year", cassette.Year == 0 ? DBNull.Value : cassette.Year);
+                    cmd.Parameters.AddWithValue("@notes", cassette.Notes == null ? DBNull.Value : cassette.Notes);
 
                     int id = (int)cmd.ExecuteScalar();
 
