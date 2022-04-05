@@ -58,9 +58,9 @@ namespace CassetteCompiler.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
 
-                    cmd.CommandText = @"SELECT c.Id, c.Artist, c.Album, c.Year, c.Notes
+                    cmd.CommandText = @"SELECT c.Id, c.UserId, c.Artist, c.Album, c.Year, c.Notes
                                         FROM Cassette c
-                                        WHERE u.Id = @id";
+                                        WHERE c.UserId = @id";
 
                     cmd.Parameters.AddWithValue("@id", id);
 
@@ -72,6 +72,7 @@ namespace CassetteCompiler.Repositories
                             cassettes.Add(new Cassette()
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
                                 Artist = reader.GetString(reader.GetOrdinal("Artist")),
                                 Album = reader.GetString(reader.GetOrdinal("Album")),
                                 Year = !reader.IsDBNull(reader.GetOrdinal("Year")) ? reader.GetInt32(reader.GetOrdinal("Year")) : 0,
