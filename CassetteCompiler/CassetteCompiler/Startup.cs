@@ -50,6 +50,7 @@ namespace CassetteCompiler
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

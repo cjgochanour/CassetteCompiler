@@ -136,7 +136,7 @@ namespace CassetteCompiler.Controllers
         public async Task<ActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "User");
         }
     }
 }
