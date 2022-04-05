@@ -39,19 +39,6 @@
                 <span asp-validation-for="Cassette.Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cassette.Genres" class="control-label"></label>
-                <select multiple asp-for="GenreIds" class="form-control">
-                    <option asp-for="@Model.GenreIds">Select Genre(s)</option>
-                    @{
-                        foreach(Genre g in Model.Genres)
-                        {
-                            <option asp-for="@Model.GenreIds" value="@g.Id">@g.Name</option>
-                        }
-                    }
-                </select>
-                <span asp-validation-for="Cassette.Genres" class="text-danger"></span>
-            <div class="form-group">
-            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
