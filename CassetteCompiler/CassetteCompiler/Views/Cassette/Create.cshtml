@@ -1,4 +1,4 @@
-﻿@model CassetteCompiler.Models.Cassette
+﻿@model CassetteCompiler.Models.ViewModels.CassetteFormViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -12,25 +12,37 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Artist" class="control-label"></label>
-                <input asp-for="Artist" Required class="form-control" />
-                <span asp-validation-for="Artist" class="text-danger"></span>
+                <label asp-for="Cassette.Artist" class="control-label"></label>
+                <input asp-for="Cassette.Artist" Required class="form-control" />
+                <span asp-validation-for="Cassette.Artist" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Album" class="control-label"></label>
-                <input asp-for="Album" Required class="form-control" />
-                <span asp-validation-for="Album" class="text-danger"></span>
+                <label asp-for="Cassette.Album" class="control-label"></label>
+                <input asp-for="Cassette.Album" Required class="form-control" />
+                <span asp-validation-for="Cassette.Album" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Year" class="control-label">Year (Leave 0 if unknown)</label>
-                <input asp-for="Year" value="0" class="form-control" />
-                <span asp-validation-for="Year" class="text-danger"></span>
+                <label asp-for="Cassette.Year" class="control-label">Year (Leave 0 if unknown)</label>
+                <input asp-for="Cassette.Year" value="0" class="form-control" />
+                <span asp-validation-for="Cassette.Year" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Notes" class="control-label">Notes (Optional)</label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
+                <label asp-for="Cassette.Notes" class="control-label">Notes (Optional)</label>
+                <input asp-for="Cassette.Notes" class="form-control" />
+                <span asp-validation-for="Cassette.Notes" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Cassette.Genres" class="control-label"></label>
+                <select multiple asp-for="Cassette.Genres" class="form-control">
+                    <option>Select Genre(s)</option>
+                    @{
+                        foreach(Genre g in Model.Genres)
+                        {
+                            <option value="@g.Id">@g.Name</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Cassette.Genres" class="text-danger"></span>
             <div class="form-group">
                 <input type="submit" value="Add To Collection" class="btn btn-primary" />
             </div>

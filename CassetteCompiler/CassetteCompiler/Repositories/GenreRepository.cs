@@ -6,7 +6,7 @@ using System;
 
 namespace CassetteCompiler.Repositories
 {
-    public class GenreRepository
+    public class GenreRepository : IGenreRepository
     {
         private readonly IConfiguration _config;
         public GenreRepository(IConfiguration config)
@@ -27,7 +27,8 @@ namespace CassetteCompiler.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"";
+                    cmd.CommandText = @"SELECT Id, Name
+                                        FROM Genre";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {

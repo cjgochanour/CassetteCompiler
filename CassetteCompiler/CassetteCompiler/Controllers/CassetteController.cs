@@ -11,9 +11,11 @@ namespace CassetteCompiler.Controllers
     public class CassetteController : Controller
     {
         private readonly ICassetteRepository _cassetteRepo;
-        public CassetteController(ICassetteRepository cassetteRepository)
+        private readonly IGenreRepository _genreRepo;
+        public CassetteController(ICassetteRepository cassetteRepository, IGenreRepository genreRepository)
         {
             _cassetteRepo = cassetteRepository;
+            _genreRepo = genreRepository;
         }
         // GET: CassetteController
         public ActionResult Index()
@@ -33,18 +35,20 @@ namespace CassetteCompiler.Controllers
         // GET: CassetteController/Create
         public ActionResult Create()
         {
-            return View();
+            CassetteFormViewModel cfvm = new CassetteFormViewModel();
+            cfvm.Genres = _genreRepo.GetAll();
+            return View(cfvm);
         }
 
         // POST: CassetteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Cassette cassette)
+        public ActionResult Create(CassetteFormViewModel cfvm)
         {
             try
             {
-                cassette.UserId = GetCurrentUserId();
-                _cassetteRepo.AddCassette(cassette);
+                cfvm.Cassette.UserId = GetCurrentUserId();
+                _cassetteRepo.AddCassette(cfvm.Cassette);
                 return RedirectToAction(nameof(Index));
             }
             catch
