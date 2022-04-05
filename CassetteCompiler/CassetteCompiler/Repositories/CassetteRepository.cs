@@ -92,7 +92,6 @@ namespace CassetteCompiler.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    //TODO: Add genres to new instance of cassette
                     cmd.CommandText = @"SELECT c.Id AS CassetteId, c.UserId, c.Artist, c.Album, c.Year, c.Notes, g.Id AS GenreId, g.Name AS GenreName
                                         FROM Cassette c
                                         LEFT JOIN CassetteGenre cg ON cg.CassetteId = c.Id
@@ -139,7 +138,6 @@ namespace CassetteCompiler.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    //TODO: Add genres to new instance of cassette
                     cmd.CommandText = @"INSERT INTO Cassette (UserId, Artist, Album, Year, Notes)
                                         OUTPUT INSERTED.ID
                                         VALUES (@userId, @artist, @album, @year, @notes)";
@@ -156,4 +154,5 @@ namespace CassetteCompiler.Repositories
                 }
             }
         }
+    }
 }
