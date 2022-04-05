@@ -118,7 +118,7 @@ namespace CassetteCompiler.Repositories
                                     Genres = new List<Genre>()
                                 };
                             }
-                            if (!reader.IsDBNull(reader.GetOrdinal("Genre")))
+                            if (!reader.IsDBNull(reader.GetOrdinal("GenreId")))
                             {
                                 cassette.Genres.Add(new Genre()
                                 {

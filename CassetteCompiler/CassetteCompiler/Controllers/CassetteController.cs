@@ -76,7 +76,8 @@ namespace CassetteCompiler.Controllers
         // GET: CassetteController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Cassette cassette = _cassetteRepo.GetById(id);
+            return View(cassette);
         }
 
         // POST: CassetteController/Delete/5
