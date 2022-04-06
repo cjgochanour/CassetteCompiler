@@ -1,4 +1,5 @@
 ﻿using CassetteCompiler.Models;
+using CassetteCompiler.Models.ViewModels;
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -170,25 +171,39 @@ namespace CassetteCompiler.Repositories
                 }
             }
         }
-        public void UpdateCassette(Cassette cassette)
+        public void UpdateCassetteWithGenres(CassetteFormViewModel cfvm)
         {
             using (SqlConnection con = Connection)
             {
                 con.Open();
                 using (SqlCommand cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = @"UPDATE Cassette
+                    cmd.CommandText += @"UPDATE Cassette
                                         SET
                                             Artist = @artist,
                                             Album = @album,
                                             Year = @year,
                                             Notes = @notes
-                                        WHERE Id = @id";
-                    cmd.Parameters.AddWithValue("@artist", cassette.Artist);
-                    cmd.Parameters.AddWithValue("@album", cassette.Album);
-                    cmd.Parameters.AddWithValue("@year", cassette.Year);
-                    cmd.Parameters.AddWithValue("@notes", cassette.Notes);
-                    cmd.Parameters.AddWithValue("@id", cassette.Id);
+                                        WHERE Id = @id;
+                                        DELETE FROM CassetteGenre
+                                        WHERE CassetteId = @id;";
+                    cmd.Parameters.AddWithValue("@artist", cfvm.Cassette.Artist);
+                    cmd.Parameters.AddWithValue("@album", cfvm.Cassette.Album);
+                    cmd.Parameters.AddWithValue("@year", cfvm.Cassette.Year);
+                    cmd.Parameters.AddWithValue("@notes", cfvm.Cassette.Notes);
+
+                    if (cfvm.GenreIds.Count > 0)
+                    {
+                        int index = 0;
+                        foreach (int id in cfvm.GenreIds)
+                        {
+                            index++;
+                            cmd.CommandText += @$"INSERT INTO CassetteGenre (CassetteId, GenreId)
+                                              VALUES (@id, @genreId{index});";
+                            cmd.Parameters.AddWithValue(@$"@genreId{index}", id);
+                        }
+                    }
+                    cmd.Parameters.AddWithValue("@id", cfvm.Cassette.Id);
 
                     cmd.ExecuteNonQuery();
                 }

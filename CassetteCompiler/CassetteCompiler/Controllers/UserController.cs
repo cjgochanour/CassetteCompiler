@@ -104,6 +104,10 @@ namespace CassetteCompiler.Controllers
         }
         public ActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Cassette");
+            }
             return View();
         }
         [HttpPost]

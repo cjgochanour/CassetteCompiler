@@ -87,7 +87,11 @@ namespace CassetteCompiler.Controllers
         {
             try
             {
-                _cassetteRepo.UpdateCassette(cfvm.Cassette);
+                if (cfvm.GenreIds == null)
+                {
+                    cfvm.GenreIds = new List<int>();
+                }
+                _cassetteRepo.UpdateCassetteWithGenres(cfvm);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
